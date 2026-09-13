@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Site } from './data';
 import { buildPrompt, callGemini, ConceptImage, localPlan, Plan, useGemini } from './ai';
+import { Mascot } from './mascot';
 
 export function Studio({ site, sites, onSite }: { site: Site; sites: Site[]; onSite: (id: string) => void }) {
   const { apiKey, save } = useGemini();
@@ -75,7 +76,7 @@ export function Studio({ site, sites, onSite }: { site: Site; sites: Site[]; onS
       <section className="results" aria-live="polite">
         {!plan && !busy && (
           <div className="empty">
-            <span className="bigicon">▦</span>
+            <Mascot tone="orange" mood="wow" size={110} className="mascot-bob" />
             <h2>공간을 어떻게 쓸 수 있을지 먼저 그려봅니다</h2>
             <p>면적과 접근 조건을 바탕으로 배치안과 수용 인원을 계산합니다. 안전·법규 적합 판정은 하지 않습니다.</p>
           </div>

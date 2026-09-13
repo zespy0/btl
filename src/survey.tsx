@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { Site } from './data';
 import { CONCERNS, newId, PERIOD, Visit } from './visits';
+import { Mascot } from './mascot';
 
 export function SurveyQR({ url }: { url: string }) {
   const [src, setSrc] = useState('');
@@ -55,7 +56,7 @@ export function SurveyForm({ site, day, onSubmit }: { site: Site; day: number; o
   if (done) {
     return (
       <div className="surveydone">
-        <span className="bigicon">✓</span>
+        <Mascot tone="mint" mood="wow" size={104} className="mascot-bob" />
         <h2>응답이 기록되었습니다</h2>
         <p>D+{day} 방문으로 집계했습니다. 이름과 연락처는 받지 않으며, 이 브라우저에만 저장됩니다.</p>
         <button onClick={() => setDone(false)}>다음 방문자 응답하기</button>

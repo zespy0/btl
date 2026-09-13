@@ -10,6 +10,8 @@ import { clearVisits, getDay, loadVisits, OPEN_SITE, PERIOD, saveVisits, seedVis
 import { buildPrompt, callGemini, ConceptImage, localPlan, Plan, useGemini } from './ai';
 import { Studio } from './studio';
 import { AdminView, VisitorView } from './roles';
+import { Mascot, RoleIcon, CondIcon, Tone } from './mascot';
+import { Ticker } from './ticker';
 
 type Role = 'operator' | 'admin' | 'visitor';
 const ROLES: { id: Role; name: string; desc: string; mark: string }[] = [
@@ -17,6 +19,8 @@ const ROLES: { id: Role; name: string; desc: string; mark: string }[] = [
   { id: 'admin', name: '앱 관리자', desc: '후보지 상태와 시연 데이터를 관리합니다', mark: '▤' },
   { id: 'visitor', name: '방문자', desc: '공개된 팝업 정보를 확인합니다', mark: '☺' },
 ];
+const SITE_TONE = (site: Site): Tone =>
+  site.kind === '가상 시연 데이터' ? 'mint' : readiness(site).coreBlocked ? 'orange' : 'sky';
 const KEY = 'binteum-demo-v2';
 type Saved = { site: string; concept: string; days: number; budget: number; seats: number; important: string[]; items: string[]; checked: boolean[] };
 function read(): Saved | null {
@@ -37,6 +41,9 @@ function SiteCard({ site, onOpen }: { site: Site; onOpen: () => void }) {
     <article>
       <div className={'siteart ' + (site.kind === '가상 시연 데이터' ? 'artdemo' : r.coreBlocked ? 'artblock' : 'artplain')}>
         <span>{site.area}</span><span>{site.kind}</span>
+        <span className="artmascot">
+          <Mascot tone={SITE_TONE(site)} mood={r.coreBlocked ? 'think' : 'happy'} size={64} />
+        </span>
       </div>
       <div className="cardbody">
         <h2>{site.name}</h2>
@@ -85,7 +92,7 @@ function Detail({ site, onBack, onPlan }: { site: Site; onBack: () => void; onPl
       <div className="conditiongrid">
         {groupConds(site).map((g, i) => (
           <article className="condition" key={g.key}>
-            <h3><span>0{i + 1}</span> {g.key}</h3>
+            <h2><CondIcon kind={g.key} /> {g.key} <span>0{i + 1}</span></h2>
             {g.items.map((it) => (
               <div className="field" key={it.label}>
                 <strong>{it.label}</strong>
@@ -179,7 +186,7 @@ function Prep({ site, saved, onSave, onReset }: { site: Site; saved: Saved | nul
           </>
         ) : (
           <div className="empty">
-            <span className="bigicon">✳</span>
+            <Mascot tone="pink" mood="think" size={110} className="mascot-bob" />
             <h2>막연한 계획을 구체적인 질문으로</h2>
             <p>운영 계획을 입력하면 우선 확인부터 보류 기준까지 정리합니다. 미확인 조건을 적합으로 바꾸지 않습니다.</p>
           </div>
@@ -252,14 +259,15 @@ function App() {
       <a className="skip" href="#main">본문으로 이동</a>
       <aside>
         <button className="brand" onClick={() => { setRole('operator'); setPage(0); setDetail(false); }}>
-          <span className="brandmark">빈</span><span>빈틈랩<small>BINTEUM LAB</small></span>
+          <span className="brandmark"><Mascot tone="mint" mood="wink" size={34} /></span>
+          <span className="brandtext">빈틈랩<small>BINTEUM LAB</small></span>
         </button>
         <div className="navlabel">역할 선택</div>
         <nav aria-label="역할">
           {ROLES.map((r) => (
             <button key={r.id} className={role === r.id ? 'active' : ''} aria-current={role === r.id ? 'page' : undefined}
               onClick={() => { setRole(r.id); setPage(0); setDetail(false); }}>
-              <span>{r.mark}</span>{r.name}
+              <span><RoleIcon role={r.id} size={22} /></span>{r.name}
             </button>
           ))}
         </nav>
@@ -334,12 +342,20 @@ function App() {
                   </div>
                   <div className="heronote">안전 · 권리 · 접근 · 비용 · 주민협의</div>
                 </div>
-              <div className="maphero"><LeafMap sites={SITES} active={siteId} onPick={open} height={330} /></div>
+                <div className="heroart">
+                  <div className="herosquad">
+                    <Mascot tone="orange" mood="happy" size={92} />
+                    <Mascot tone="mint" mood="wow" size={116} className="mascot-bob" />
+                    <Mascot tone="pink" mood="wink" size={92} />
+                  </div>
+                  <div className="maphero"><LeafMap sites={SITES} active={siteId} onPick={open} height={250} /></div>
+                </div>
               </div>
+              <Ticker items={['영도 빈 공간 30일 실증', '현장 기록 · 팀 샘플 · 시연 데이터 구분', '운영 가능 판정 아님', 'QR 설문으로 방문 데이터 누적']} />
               <div className="steps">
                 {ROLES.map((r) => (
                   <button key={r.id} onClick={() => { setRole(r.id); setPage(0); }}>
-                    <span>{r.mark}</span>
+                    <RoleIcon role={r.id} size={48} />
                     <div><h3>{r.name}</h3><p>{r.desc}</p></div>
                     <b>↗</b>
                   </button>
@@ -350,6 +366,7 @@ function App() {
                   <Badge>현장 실증 기록 · 2026.09.12</Badge>
                   <h2>바다가 보이는 공터,<br />팝업을 열 수 있을까요?</h2>
                   <p>청학동 88-9 일대 · 공공데이터 요약상 55.48㎡</p>
+                  <Mascot tone="orange" mood="think" size={96} />
                 </div>
                 <div>
                   <h3>! 현재 조건만으로 단독 팝업 운영 어려움</h3>
@@ -421,8 +438,12 @@ function App() {
             </>
           )}
           <footer>
-            <p>빈틈랩 · 공간 활용 의사결정과 준비를 돕는 AX 도구<br />
-              <small>현장 기록·팀 입력 샘플·가상 시연 데이터를 구분합니다. 법적·안전 적합성을 보증하지 않습니다.</small></p>
+            <div className="footmark">
+              <Mascot tone="mint" mood="happy" size={62} />
+              <p><strong>빈틈랩 · BINTEUM LAB</strong>
+                공간 활용 의사결정과 준비를 돕는 AX 도구<br />
+                <small>현장 기록·팀 입력 샘플·가상 시연 데이터를 구분합니다. 법적·안전 적합성을 보증하지 않습니다.</small></p>
+            </div>
             <button onClick={reset}>데모 데이터 초기화</button>
           </footer>
         </main>

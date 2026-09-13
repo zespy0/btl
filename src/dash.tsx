@@ -1,6 +1,7 @@
 import React from 'react';
 import { Site } from './data';
 import { PERIOD, Summary, Visit } from './visits';
+import { Mascot } from './mascot';
 
 const Badge = ({ children }: { children: React.ReactNode }) => <span className="badge">{children}</span>;
 
@@ -53,7 +54,7 @@ export function Dashboard({ role, site, sum, day, onDay, onSeed, onClear, live }
   if (empty) {
     return (
       <div className="empty">
-        <span className="bigicon">▥</span>
+        <Mascot tone="sky" mood="think" size={110} className="mascot-bob" />
         <h2>아직 수집된 방문 데이터가 없습니다</h2>
         <p>{site.name.replace('[시연] ', '')}의 QR 설문으로 응답이 들어오면 이곳에 누적됩니다.</p>
         {role !== 'visitor' && <p className="dim">시연용으로 과거 응답을 한 번에 만들어 볼 수 있습니다.</p>}
