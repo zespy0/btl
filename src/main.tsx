@@ -10,6 +10,7 @@ import { clearVisits, getDay, loadVisits, OPEN_SITE, PERIOD, saveVisits, seedVis
 import { buildPrompt, callGemini, ConceptImage, localPlan, Plan, useGemini } from './ai';
 import { Studio } from './studio';
 import { AdminView, VisitorView } from './roles';
+import { PopupPass } from './popup-pass';
 import { Mascot, RoleIcon, CondIcon, Tone } from './mascot';
 import { Ticker } from './ticker';
 
@@ -212,8 +213,8 @@ function App() {
   const [notice, setNotice] = useState('');
   const [visits, setVisits] = useState<Visit[]>(loadVisits);
   const [day, setDayState] = useState<number>(getDay);
-  const [survey, setSurvey] = useState(false);
-  useEffect(() => { if (fromQR) setSurvey(true); }, [fromQR]);
+  const [visitorTab, setVisitorTab] = useState<'info' | 'pass' | 'survey'>(fromQR ? 'survey' : 'info');
+  useEffect(() => { if (fromQR) setVisitorTab('survey'); }, [fromQR]);
   const site = SITES.find((s) => s.id === siteId) as Site;
   useEffect(() => { window.scrollTo(0, 0); }, [role, page, detail]);
   const areas = ['전체', ...Array.from(new Set(SITES.map((s) => s.area)))];
@@ -308,10 +309,11 @@ function App() {
             <>
               <Title tag="VISITOR" title="가기 전에 알아야 할 것부터." text="공개된 팝업의 운영 시간과 접근 조건을 먼저 안내합니다." />
               <div className="tabs" role="tablist">
-                <button role="tab" aria-selected={!survey} className={!survey ? 'on' : ''} onClick={() => setSurvey(false)}>팝업 정보</button>
-                <button role="tab" aria-selected={survey} className={survey ? 'on' : ''} onClick={() => setSurvey(true)}>QR 설문 참여</button>
+                <button role="tab" aria-selected={visitorTab === 'info'} className={visitorTab === 'info' ? 'on' : ''} onClick={() => setVisitorTab('info')}>팝업 정보</button>
+                <button role="tab" aria-selected={visitorTab === 'pass'} className={visitorTab === 'pass' ? 'on' : ''} onClick={() => setVisitorTab('pass')}>팝업패스</button>
+                <button role="tab" aria-selected={visitorTab === 'survey'} className={visitorTab === 'survey' ? 'on' : ''} onClick={() => setVisitorTab('survey')}>QR 설문 참여</button>
               </div>
-              {survey ? (
+              {visitorTab === 'survey' ? (
                 <>
                   <div className="surveywrap">
                     <div>
@@ -324,6 +326,8 @@ function App() {
                   <h2 className="sechead">지금까지 모인 방문 기록</h2>
                   <Dashboard role="visitor" site={openSite} sum={sum} day={day} onDay={changeDay} onSeed={seed} onClear={wipe} live={openVisits} />
                 </>
+              ) : visitorTab === 'pass' ? (
+                <PopupPass />
               ) : (
                 <VisitorView sites={SITES} />
               )}

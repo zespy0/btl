@@ -475,6 +475,39 @@ tbody tr:hover{background:var(--cream-2)}
 .vcard ul{padding-left:18px;font-size:14px;color:var(--muted-ink)}
 .vcard li{margin-bottom:6px}
 
+/* ---------- 팝업패스 ---------- */
+.pass{display:grid;gap:22px}
+.passhero{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--ink);color:#fff;border:var(--edge) solid var(--ink);border-radius:18px;padding:30px 36px;box-shadow:var(--shadow-hard);overflow:hidden}
+.passhero h2{font-size:clamp(32px,4vw,54px);margin:0 0 14px;color:#fff;text-shadow:4px 4px 0 var(--orange)}
+.passhero p{color:var(--muted);max-width:680px;margin-bottom:16px}
+.passhero .eyebrow{color:var(--yellow)}
+.passroute{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:12px}
+.passstop{padding:22px;background:var(--paper);position:relative}
+.passstop__icon{display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--ink);border-radius:50%;background:var(--orange);font-family:var(--display);font-size:22px;box-shadow:3px 3px 0 var(--ink);margin-bottom:15px}
+.passstop small{font-weight:900;letter-spacing:1.5px;color:var(--orange)}
+.passstop h3{font-size:24px;margin:4px 0 8px}
+.passstop p{font-size:12px;min-height:44px}
+.passarrow{align-self:center;font-family:var(--display);font-size:32px;color:var(--orange)}
+.passgrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:22px}
+.passticket,.passinfo{padding:26px}
+.passticket{background:var(--yellow);border-style:dashed;transition:background .2s ease}
+.passticket.issued{background:#CFF5E8}
+.passticket__top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:2px dashed var(--ink);padding-bottom:16px}
+.passticket__top small{font-weight:900;letter-spacing:1.4px;color:var(--ink)}
+.passticket__top h3{font-size:29px;margin:2px 0 0}
+.passticket__top>span{background:var(--ink);color:#fff;border-radius:20px;padding:5px 11px;font-size:10px;font-weight:900}
+.passticket__body{display:grid;grid-template-columns:82px 1fr;gap:16px;align-items:center;padding:22px 0}
+.passcode{display:grid;place-items:center;height:82px;background:var(--paper);border:3px solid var(--ink);border-radius:10px;font-family:var(--display);font-size:25px;line-height:1;box-shadow:4px 4px 0 var(--orange)}
+.passticket__body b{font-size:16px}
+.passticket__body p{font-size:11px;margin:4px 0 10px;color:var(--ink)}
+.stamptray{display:flex;gap:7px}
+.stamptray span{display:grid;place-items:center;width:34px;height:34px;border:2px solid var(--ink);border-radius:50%;background:var(--paper);font-size:17px}
+.stamptray span.filled{background:var(--orange)}
+.passinfo h3{font-size:27px;margin:20px 0 10px}
+.passinfo ul{list-style:none;padding:0;margin:0}
+.passinfo li{display:grid;grid-template-columns:82px 1fr;gap:12px;border-top:2px dashed rgba(16,16,24,.16);padding:12px 0;font-size:12px;color:var(--muted-ink)}
+.passinfo li b{color:var(--ink)}
+
 /* ---------- QR / 설문 ---------- */
 .qrbox{
   background:var(--paper);border:var(--edge) solid var(--ink);border-radius:var(--radius);
@@ -581,6 +614,9 @@ footer button{font-size:12px}
   .hero{padding:26px 20px;border-radius:16px}
   .hero h1{text-shadow:3px 3px 0 var(--orange)}
   .steps,.cards,.explore .cards,.conditiongrid,.workgrid,.visitor,.viewwrap,.surveywrap,.filters,.explore .filters{grid-template-columns:1fr}
+  .passhero{padding:24px 20px}.passhero .mascot{display:none}
+  .passroute{grid-template-columns:1fr}.passarrow{transform:rotate(90deg);justify-self:center;line-height:1}
+  .passgrid{grid-template-columns:1fr}
   .simulator{padding:18px;border-radius:15px}
   .simulator__head{display:block}
   .simulator__head .sticker{margin-top:12px}
