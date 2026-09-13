@@ -396,6 +396,36 @@ form>small{display:block;margin-top:14px}
 .viewnote{font-size:12px;background:var(--cream-2);padding:12px;border-radius:9px;margin:0;border:2px solid var(--ink)}
 
 /* ---------- 모델링 ---------- */
+.simulator{
+  background:var(--ink);color:#fff;border:var(--edge) solid var(--ink);border-radius:20px;
+  padding:28px;margin-bottom:26px;box-shadow:var(--shadow-hard);overflow:hidden;
+}
+.simulator__head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}
+.simulator__head h2{color:#fff;margin:0 0 8px;text-shadow:3px 3px 0 var(--orange)}
+.simulator__head p{color:var(--muted);font-size:13px;margin:0}
+.simulator__head .eyebrow{color:var(--yellow);margin-bottom:9px}
+.simulator__stage{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:16px;margin-bottom:16px}
+.simulation-image{position:relative;border:2px solid #fff;border-radius:14px;overflow:hidden;min-height:360px;background:var(--ink-2)}
+.simulation-image>img{width:100%;height:100%;min-height:360px;object-fit:cover;display:block;animation:simfade .28s ease}
+@keyframes simfade{from{opacity:.35;transform:scale(1.015)}to{opacity:1;transform:scale(1)}}
+.simulation-image::after{content:'';position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(16,16,24,.88))}
+.simulation-image__label{position:absolute;top:14px;left:14px;z-index:2;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);border-radius:20px;padding:5px 10px;font-size:10px;font-weight:900}
+.simulation-image__copy{position:absolute;left:22px;bottom:18px;z-index:2;color:#fff}
+.simulation-image__copy span{font-size:11px;font-weight:900;letter-spacing:1px;color:var(--yellow)}
+.simulation-image__copy h3{font-size:36px;margin:3px 0 2px;text-shadow:3px 3px 0 var(--orange)}
+.simulation-image__copy p{color:#fff;margin:0;font-size:13px}
+.simulation-facts{display:grid;gap:10px}
+.simulation-facts>div{display:flex;flex-direction:column;justify-content:center;background:var(--cream);color:var(--ink);border:2px solid #fff;border-radius:12px;padding:14px;box-shadow:3px 3px 0 var(--orange)}
+.simulation-facts small{font-size:10px;font-weight:900;letter-spacing:1px}
+.simulation-facts strong{font-family:var(--display);font-size:25px;line-height:1.2;margin-top:4px}
+.simulation-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.simulation-card{padding:0;text-align:left;overflow:hidden;background:var(--paper);box-shadow:3px 3px 0 var(--orange);border:2px solid #fff;min-width:0}
+.simulation-card:hover{transform:translateY(-3px);box-shadow:3px 6px 0 var(--orange)}
+.simulation-card.on{background:var(--yellow);border-color:var(--yellow);box-shadow:4px 4px 0 var(--pink)}
+.simulation-card img{width:100%;height:74px;object-fit:cover;display:block;border-bottom:2px solid var(--ink)}
+.simulation-card__copy{display:block;padding:9px 8px}
+.simulation-card__copy b{display:block;font-size:12px;white-space:nowrap}
+.simulation-card__copy small{display:block;font-size:9px;margin-top:2px;line-height:1.35;min-height:25px}
 .concept{width:100%;border:2px solid var(--ink);border-radius:10px;display:block;margin:14px 0}
 .genfig{margin:14px 0}
 .genfig img{width:100%;border-radius:10px;display:block;border:2px solid var(--ink)}
@@ -531,6 +561,7 @@ footer button{font-size:12px}
   .mapbox{position:static}
   .cards,.explore .cards{grid-template-columns:1fr 1fr}
   .workgrid{grid-template-columns:300px 1fr}
+  .simulation-grid{grid-template-columns:repeat(3,1fr)}
   .metrics{grid-template-columns:repeat(2,1fr)}
   .brandtext{font-size:24px}
 }
@@ -550,6 +581,15 @@ footer button{font-size:12px}
   .hero{padding:26px 20px;border-radius:16px}
   .hero h1{text-shadow:3px 3px 0 var(--orange)}
   .steps,.cards,.explore .cards,.conditiongrid,.workgrid,.visitor,.viewwrap,.surveywrap,.filters,.explore .filters{grid-template-columns:1fr}
+  .simulator{padding:18px;border-radius:15px}
+  .simulator__head{display:block}
+  .simulator__head .sticker{margin-top:12px}
+  .simulator__stage{grid-template-columns:1fr}
+  .simulation-image,.simulation-image>img{min-height:270px}
+  .simulation-facts{grid-template-columns:repeat(3,1fr)}
+  .simulation-facts>div{padding:10px}
+  .simulation-facts strong{font-size:19px}
+  .simulation-grid{grid-template-columns:repeat(2,1fr)}
   .fieldnote{grid-template-columns:1fr}
   .fieldnote>div{padding:24px 20px}
   .fieldnote>div:nth-child(2){border-left:0;border-top:var(--edge) solid var(--ink)}

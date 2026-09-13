@@ -2,17 +2,28 @@ import React, { useState } from 'react';
 import { Site } from './data';
 import { buildPrompt, callGemini, ConceptImage, localPlan, Plan, useGemini } from './ai';
 import { Mascot } from './mascot';
+import { SIMULATIONS, SimulationGallery, SimulationPreset } from './simulation';
 
 export function Studio({ site, sites, onSite }: { site: Site; sites: Site[]; onSite: (id: string) => void }) {
   const { apiKey, save } = useGemini();
   const [keyInput, setKeyInput] = useState('');
-  const [concept, setConcept] = useState('로컬 브랜드 전시·판매');
-  const [seats, setSeats] = useState(12);
+  const [concept, setConcept] = useState(SIMULATIONS[2].concept);
+  const [seats, setSeats] = useState(SIMULATIONS[2].seats);
   const [busy, setBusy] = useState(false);
   const [plan, setPlan] = useState<Plan | null>(null);
   const [live, setLive] = useState<{ text?: string; image?: string } | null>(null);
   const [err, setErr] = useState('');
   const [mode, setMode] = useState<'demo' | 'live'>('demo');
+  const [simulation, setSimulation] = useState(SIMULATIONS[2].id);
+
+  const selectSimulation = (preset: SimulationPreset) => {
+    setSimulation(preset.id);
+    setConcept(preset.concept);
+    setSeats(preset.seats);
+    setLive(null);
+    setErr('');
+    setPlan(localPlan(site, preset.concept, preset.seats));
+  };
 
   const run = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +44,9 @@ export function Studio({ site, sites, onSite }: { site: Site; sites: Site[]; onS
   };
 
   return (
-    <div className="workgrid">
+    <>
+      <SimulationGallery selected={simulation} onSelect={selectSimulation} />
+      <div className="workgrid">
       <form onSubmit={run}>
         <h2>공간 모델링 조건</h2>
         <label>대상 공간
@@ -104,7 +117,8 @@ export function Studio({ site, sites, onSite }: { site: Site; sites: Site[]; onS
           </>
         )}
       </section>
-    </div>
+      </div>
+    </>
   );
 }
 
